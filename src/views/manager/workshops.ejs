@@ -1,18 +1,12 @@
-<!-- Admin: Workshop Management -->
+<!-- Manager: Workshop Management -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h4 class="fw-bold mb-1" style="font-family: 'Inter', sans-serif;">Quản lý Workshop</h4>
-        <p class="mb-0" style="color: var(--admin-muted); font-size: 0.85rem;">Thêm, sửa, xóa workshop trải nghiệm.</p>
+        <h4 class="fw-bold mb-1" style="font-family: 'Inter', sans-serif;">Quản lý Workshop - <%= dest.name %></h4>
+        <p class="mb-0" style="color: var(--admin-muted); font-size: 0.85rem;">Quản lý danh sách, thêm, sửa, xóa các workshop thuộc địa điểm <%= dest.name %>.</p>
     </div>
-    <% if (locals.user && locals.user.role === 'admin') { %>
-        <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 rounded-pill px-3 py-2 fw-semibold">
-            <i class="bi bi-info-circle me-1"></i> Workshop được tạo bởi Quản lý địa điểm
-        </span>
-    <% } else { %>
-        <button class="btn btn-primary rounded-pill px-4 fw-bold" data-bs-toggle="modal" data-bs-target="#wsModal" onclick="openWsForm()">
-            <i class="bi bi-plus-lg me-1"></i> Thêm Workshop
-        </button>
-    <% } %>
+    <button class="btn btn-primary rounded-pill px-4 fw-bold" data-bs-toggle="modal" data-bs-target="#wsModal" onclick="openWsForm()">
+        <i class="bi bi-plus-lg me-1"></i> Thêm Workshop
+    </button>
 </div>
 
 <!-- Workshops Table -->
@@ -37,7 +31,7 @@
                         <img src="<%= fixImg(ws.image, '/images/hero-2.png') %>" class="rounded-3" style="width: 44px; height: 44px; object-fit: cover;">
                         <div>
                             <div class="fw-bold small"><%= ws.title %></div>
-                            <div style="font-size: 0.72rem; color: var(--admin-muted);"><%= ws.destination_name || '-' %></div>
+                            <div style="font-size: 0.72rem; color: var(--admin-muted);"><%= dest.name %></div>
                         </div>
                     </div>
                 </td>
@@ -89,7 +83,7 @@
         <div class="modal-content border-0 rounded-4" style="background: var(--admin-surface);">
             <div class="modal-header border-0 pb-0">
                 <h5 class="modal-title fw-bold" id="wsModalTitle">Thêm Workshop</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <form id="wsForm">
@@ -113,7 +107,7 @@
                                 <option value="ecology">Sinh Thái</option>
                                 <option value="culture">Văn Hóa</option>
                                 <option value="other">Khác</option>
-                            </select>
+                             </select>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label small fw-bold">Giá (VNĐ)</label>
@@ -124,17 +118,13 @@
                             <input type="text" class="form-control admin-input" id="ws_duration" name="duration" value="2 giờ">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Sức chứa</label>
+                            <label class="form-label small fw-bold">Sức chứa tối đa (người)</label>
                             <input type="number" class="form-control admin-input" id="ws_max" name="max_participants" value="20">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-bold">Thuộc địa điểm</label>
-                            <select class="form-select admin-input" id="ws_dest" name="destination_id">
-                                <option value="">-- Không --</option>
-                                <% destinations.forEach(d => { %>
-                                    <option value="<%= d.id %>"><%= d.name %></option>
-                                <% }) %>
-                            </select>
+                            <input type="text" class="form-control admin-input bg-light" value="<%= dest.name %>" readonly disabled>
+                            <input type="hidden" id="ws_dest" name="destination_id" value="<%= dest.id %>">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-bold">Ngày giờ bắt đầu</label>
@@ -148,7 +138,7 @@
                             <label class="form-label small fw-bold">Ảnh Workshop</label>
                             <div class="d-flex align-items-center gap-3 mb-2">
                                 <img id="ws_preview" src="/images/hero-2.png" class="rounded-3" style="width: 100px; height: 60px; object-fit: cover; border: 1px solid var(--admin-border);">
-                                <button type="button" class="btn btn-sm btn-outline-light rounded-pill" onclick="document.getElementById('ws_file').click()">
+                                <button type="button" class="btn btn-sm btn-outline-dark rounded-pill" onclick="document.getElementById('ws_file').click()">
                                     <i class="bi bi-upload me-1"></i>Chọn ảnh
                                 </button>
                                 <input type="file" id="ws_file" class="d-none" accept="image/*" onchange="uploadWsFile(this)">
@@ -264,7 +254,7 @@ async function saveWs() {
         is_active: document.getElementById('ws_is_active').checked
     };
     
-    const url = editingWs ? '/api/admin/update-workshop' : '/api/admin/create-workshop';
+    const url = editingWs ? '/api/manager/update-workshop' : '/api/manager/create-workshop';
     try {
         const res = await axios.post(url, data);
         if (res.data.success) { alert(res.data.message); location.reload(); }
@@ -275,9 +265,9 @@ async function saveWs() {
 async function deleteWs(id) {
     if (!confirm('Xóa workshop này?')) return;
     try {
-        const res = await axios.post('/api/admin/delete-workshop', { id });
+        const res = await axios.post('/api/manager/delete-workshop', { id });
         if (res.data.success) location.reload();
         else alert(res.data.message);
-    } catch (e) { alert('Lỗi'); }
+    } catch (e) { alert('Lỗi: ' + (e.response?.data?.message || e.message)); }
 }
 </script>
