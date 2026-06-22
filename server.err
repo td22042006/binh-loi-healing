@@ -1,0 +1,5 @@
+⚠️  Cloudinary: Missing or placeholder credentials. Using local storage fallback.
+Journey index error: Error: Hub not found
+    at Journey.createPersonalized (C:\Users\tranh\binh-loi-healing\src\models\Journey.js:37:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async index (C:\Users\tranh\binh-loi-healing\src\controllers\JourneyController.js:24:36)

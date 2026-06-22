@@ -1,9 +1,10 @@
 const path = require('path');
 const dotenvResult = require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
-const calculatedBaseUrl = process.env.NODE_ENV === 'production' 
-    ? (process.env.BASE_URL || 'https://binh-loi-healing.onrender.com') 
-    : `http://localhost:${process.env.PORT || 3000}`;
+const calculatedBaseUrl = process.env.BASE_URL ||
+    (process.env.NODE_ENV === 'production'
+        ? 'https://binh-loi-healing.onrender.com'
+        : `http://localhost:${process.env.PORT || 3000}`);
 
 const config = {
     port: process.env.PORT || 3000,

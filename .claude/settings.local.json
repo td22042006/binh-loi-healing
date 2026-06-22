@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(& \"C:\\\\Program Files\\\\MySQL\\\\MySQL Server 8.4\\\\bin\\\\mysql.exe\" -u root binhloi_tourism --max_allowed_packet=256M --force -e \"SOURCE C:/Users/tranh/binh-loi-healing/db_export_2026-06-22T05-49-39.sql\" 2>&1 | Where-Object { $_ -match \"ERROR\" } | Select-Object -First 20)"
+    ]
+  }
+}
