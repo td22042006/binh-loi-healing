@@ -10,7 +10,7 @@
                     <a href="/" class="text-decoration-none">
                         <img src="<%= fixImg(settings.brand_logo, '/images/logo.png') %>" alt="Logo" height="65" class="mb-3" onerror="this.src='/images/logo.png'">
                         <h2 class="text-white fw-black tracking-widest text-uppercase mb-1"><%= settings.brand_name || 'BÌNH LỢI' %></h2>
-                        <p class="text-white-50 small mb-0"><%= settings.brand_subtext || 'Chạm vào bình yên' %></p>
+                        <p class="text-white-50 small mb-0">Cổng Đăng Nhập Quản Trị & BQL</p>
                     </a>
                 </div>
 
@@ -18,8 +18,11 @@
                     <div class="p-4 p-md-5">
                         
                         <div class="text-center mb-4">
-                            <h4 class="text-white fw-bold mb-2">Đăng Nhập</h4>
-                            <p class="text-white-50 small mb-0">Chào mừng bạn quay trở lại với Bình Lợi Healing</p>
+                            <div class="badge bg-warning bg-opacity-25 text-warning rounded-pill px-3 py-2 mb-2 border border-warning border-opacity-50">
+                                <i class="bi bi-shield-lock-fill me-1"></i> ADMIN & MANAGER PORTAL
+                            </div>
+                            <h4 class="text-white fw-bold mb-1">Đăng Nhập Quản Trị</h4>
+                            <p class="text-white-50 small mb-0">Vui lòng nhập tài khoản được cấp quyền để tiếp tục</p>
                         </div>
 
                         <% if (typeof error !== 'undefined' && error) { %>
@@ -28,59 +31,41 @@
                             </div>
                         <% } %>
 
-                        <!-- 1. Social Logins (Google & Facebook) -->
-                        <div class="d-flex flex-column gap-3 mb-4">
-                            <a href="/auth/google" class="btn btn-light w-100 rounded-pill shadow-sm social-login-btn py-3">
-                                <img class="social-login-icon me-2" src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" style="width: 22px; height: 22px;">
-                                <span class="fw-bold text-dark fs-6">Đăng nhập với Google</span>
-                            </a>
-                            <a href="/auth/facebook" class="btn btn-primary w-100 rounded-pill shadow-sm border-0 social-login-btn py-3" style="background-color: #1877F2;">
-                                <i class="bi bi-facebook social-login-icon me-2 fs-5"></i>
-                                <span class="fw-bold fs-6">Đăng nhập với Facebook</span>
-                            </a>
-                        </div>
-
-                        <!-- Divider -->
-                        <div class="d-flex align-items-center my-4">
-                            <hr class="flex-grow-1 border-white border-opacity-25 my-0">
-                            <span class="px-3 text-white-50 small">Hoặc bằng Email</span>
-                            <hr class="flex-grow-1 border-white border-opacity-25 my-0">
-                        </div>
-
-                        <!-- 2. Email & Password Login Form (Works for both Users & Admin) -->
-                        <form action="/auth/login" method="POST" id="unifiedLoginForm">
+                        <form action="/auth/login" method="POST" id="adminLoginForm">
                             <div class="mb-3">
-                                <label class="form-label text-white-50 small fw-bold">Email</label>
+                                <label class="form-label text-white-50 small fw-bold">Email hoặc Số điện thoại</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-white bg-opacity-10 border-white border-opacity-25 text-white">
-                                        <i class="bi bi-envelope-fill"></i>
+                                        <i class="bi bi-person-badge-fill"></i>
                                     </span>
-                                    <input type="text" name="email" class="form-control auth-input bg-white bg-opacity-10 border-white border-opacity-25 text-white" placeholder="nhapemail@gmail.com" required autocomplete="username">
+                                    <input type="text" name="email" class="form-control auth-input bg-white bg-opacity-10 border-white border-opacity-25 text-white" placeholder="binhloi.travel@gmail.com hoặc SĐT" required autocomplete="username">
                                 </div>
                             </div>
 
                             <div class="mb-4">
-                                <label class="form-label text-white-50 small fw-bold">Mật khẩu <span class="fw-normal text-white-50 opacity-75">(Nếu là tài khoản Admin/BQL)</span></label>
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <label class="form-label text-white-50 small fw-bold mb-0">Mật khẩu</label>
+                                </div>
                                 <div class="input-group">
                                     <span class="input-group-text bg-white bg-opacity-10 border-white border-opacity-25 text-white">
                                         <i class="bi bi-key-fill"></i>
                                     </span>
-                                    <input type="password" name="password" id="passwordInput" class="form-control auth-input bg-white bg-opacity-10 border-white border-opacity-25 text-white" placeholder="••••••••" autocomplete="current-password">
+                                    <input type="password" name="password" id="adminPasswordInput" class="form-control auth-input bg-white bg-opacity-10 border-white border-opacity-25 text-white" placeholder="••••••••" required autocomplete="current-password">
                                     <button class="btn btn-outline-light border-white border-opacity-25" type="button" onclick="togglePasswordVisibility()">
                                         <i class="bi bi-eye-fill" id="togglePasswordIcon"></i>
                                     </button>
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary-bl w-100 rounded-pill py-3 fw-bold shadow-lg text-uppercase tracking-wider">
-                                <i class="bi bi-box-arrow-in-right me-2"></i>Đăng Nhập
+                            <button type="submit" class="btn btn-gradient-maroon w-100 rounded-pill py-3 fw-bold shadow-lg text-uppercase tracking-wider">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Đăng Nhập Hệ Thống
                             </button>
                         </form>
 
                         <div class="mt-4 pt-3 border-top border-white border-opacity-10 text-center">
-                            <p class="x-small text-white-50 mb-0">
-                                Bằng cách đăng nhập, bạn đồng ý với <a href="#" class="text-white text-decoration-underline">Điều khoản dịch vụ</a> và <a href="#" class="text-white text-decoration-underline">Chính sách bảo mật</a> của chúng tôi.
-                            </p>
+                            <a href="/auth/login" class="text-white-50 text-decoration-none small hover-white transition-all">
+                                <i class="bi bi-arrow-left me-1"></i>Quay lại trang Đăng nhập Du khách
+                            </a>
                         </div>
 
                     </div>
@@ -94,7 +79,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
     function togglePasswordVisibility() {
-        const input = document.getElementById('passwordInput');
+        const input = document.getElementById('adminPasswordInput');
         const icon = document.getElementById('togglePasswordIcon');
         if (input.type === 'password') {
             input.type = 'text';
@@ -142,27 +127,23 @@
     .auth-input::placeholder {
         color: rgba(255, 255, 255, 0.4);
     }
-
-    .social-login-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .social-login-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25) !important;
-    }
-    .btn-primary-bl {
-        background: linear-gradient(135deg, #922724 0%, #b8322e 100%);
-        color: white;
+    
+    .btn-gradient-maroon {
+        background: linear-gradient(135deg, #8B0000 0%, #B22222 50%, #D2691E 100%);
+        color: #fff;
         border: none;
         transition: all 0.3s ease;
     }
-    .btn-primary-bl:hover {
-        background: linear-gradient(135deg, #a62c29 0%, #d13935 100%);
-        color: white;
+    .btn-gradient-maroon:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(146, 39, 36, 0.4) !important;
+        box-shadow: 0 8px 25px rgba(178, 34, 34, 0.4) !important;
+        color: #fff;
+    }
+    .hover-white:hover {
+        color: #ffffff !important;
+        text-decoration: underline !important;
+    }
+    .transition-all {
+        transition: all 0.2s ease;
     }
 </style>
